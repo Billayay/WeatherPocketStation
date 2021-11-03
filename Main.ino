@@ -75,7 +75,7 @@ void DHT22Reader() {
   
 }
 
-
+//Functions reads the UV Index, Ultraviolet A, Ultraviolet B
 void UVindex() {
    //reads UV Index
    UVI = uv.readUVI();
@@ -88,8 +88,6 @@ void UVindex() {
 }
 
 void loop() {
-
-
   DHT22Reader();
   UVindex();
   // set the cursor to column 0, line 1
