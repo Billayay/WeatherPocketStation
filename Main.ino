@@ -1,12 +1,11 @@
+#include <config.h>
 
 #include <LiquidCrystal.h>
 #include <DHT.h>
 #include <Wire.h>
 #include <SD.h>
+#include "RTClib.h"
 #include "Adafruit_VEML6075.h"
-
-
-
 
 #define DHTPIN 4
 #define DHTTYPE DHT22
@@ -14,9 +13,10 @@
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 DHT dht(DHTPIN, DHTTYPE);
-File my_File;
+RTC_DS3231 rtc;
 
 //setting up data types
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 volatile float hum;
 volatile float tempC;
 volatile float tempF;
@@ -33,12 +33,16 @@ Adafruit_VEML6075 uv = Adafruit_VEML6075();
 
 
 void setup() {
+  Serial.begin(115200);
+    Serial.begin(9600);
+    Wire.begin();
+     
   // set up the LCD's number of columns and rows:
   analogWrite(6,contrast);
  lcd.begin(16, 4);
- 
+  
   //starts DHT11 or DHT 22
-  Serial.begin(9600);
+
   dht.begin();
    if (! uv.begin()) {
     Serial.println("Failed to communicate with VEML6075 sensor.");
@@ -46,33 +50,15 @@ void setup() {
   Serial.println("Found the VEML6075 sensor");
 
 
+
 while (!Serial) {
+//SETTING UP RTC MODULE
+  
+  
 ; // wait for serial port to connect. Needed for native USB port only
 }
-Serial.print("Initializing SD card...");
-if (!SD.begin(10)) {
-Serial.println("initialization failed!");
-while (1);
-}
-Serial.println("initialization done.");
-// open the file. note that only one file can be open at a time,
-// so you have to close this one before opening another.
-my_File = SD.open("test.txt", FILE_WRITE);
-// if the file opened okay, write to it:
-if (my_File) {
-Serial.print("Writing to test.txt...");
-my_File.println("This is a test file :)");
-my_File.println("testing 1, 2, 3.");
-for (int i = 0; i < 20; i++) {
-my_File.println(i);
-}
-// close the file:
-my_File.close();
-Serial.println("done.");
-} else {
-// if the file didn't open, print an error:
-Serial.println("error opening test.txt");
-}
+
+  
 
 }
   
@@ -118,20 +104,29 @@ void UV_index() {
 }
 
 void loop() {
-
-
   DHT22Reader();
   UV_index();
-
  lcd.setCursor(0,1);
  lcd.print("Temp (F) : ");
  lcd.print(tempF);
-
  lcd.setCursor(0,0);
  lcd.print("UVA  Index: ");
  lcd.print (UVA);
 
-
-
-
+  DateTime now = rtc.now();
+    Serial.print(now.year(), DEC);
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.day(), DEC);
+    Serial.print(" (");
+    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+    Serial.print(") ");
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    Serial.println();
+    delay(3000);
 }
