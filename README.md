@@ -47,9 +47,9 @@ To store our data.
 Suppose to be used as a radiation measurement tool, but with the lack of math and guidance we can only find the temperature.
 
 ## Credits 
-RTC, SD card, DHT Adafruit/Arduino CC Create example codes.
-LCD display with keybutton - https://www.instructables.com/Arduino-Uno-Menu-Template/
-Windspeed and Direction - http://cactus.io/hookups/weather/anemometer/davis/hookup-arduino-to-davis-anemometer
-UV sensor - http://arduinolearning.com/code/arduino-guva-s12sd-uv-sensor.php
-RTClib - https://github.com/adafruit/RTClib
+- RTC, SD card, DHT Adafruit/Arduino CC Create example codes.
+- LCD display with keybutton - https://www.instructables.com/Arduino-Uno-Menu-Template/
+- Windspeed and Direction - http://cactus.io/hookups/weather/anemometer/davis/hookup-arduino-to-davis-anemometer
+- UV sensor - http://arduinolearning.com/code/arduino-guva-s12sd-uv-sensor.php
+- RTClib - https://github.com/adafruit/RTClib
 
