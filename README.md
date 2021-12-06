@@ -18,6 +18,14 @@ Thermistor | Temperature, but use for radation Math is incomplete
 
 The main source of the code is ran off from the main.ino. Thia main file contains all of the working coding for our project. It has the following code features: RTC, windspeed, SD card, DHT 22, LCD display, and UV sensor.
 
+##File Header used
+- Wire.h
+- LiquidCrystal.h
+- DHT.h
+- SD.h
+- RTClib.h
+- math.h
+
 ### RTC
 The RTC module is DS3221. It uses rtclib.h file. This is calbrated to MM/DD/YYYY with HH:MM:SS. 
 
