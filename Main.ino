@@ -75,6 +75,8 @@ float WindSpeed; // speed miles per hour
 #include <Wire.h>
 #include <LiquidCrystal.h>
 #include <DHT.h>
+#include <SPI.h>
+#include <SD.h>
 #include "RTClib.h"
 #include <math.h>
 
@@ -87,7 +89,10 @@ float WindSpeed; // speed miles per hour
 LiquidCrystal lcd(8, 9, 4, 5, 6, 7);
 RTC_DS3231 rtc;
 DHT dht(DHTPIN, DHTTYPE);
+File myFile;
 
+// change this to match your SD shield or module;
+const int chipSelect = 53;
 
 void setup() {
 
@@ -121,6 +126,14 @@ void setup() {
     Serial.flush();
     while (1) delay(10);
   }
+
+Serial.print("Initializing SD card...");
+
+  if (!SD.begin()) {
+    Serial.println("initialization failed!");
+    return;
+  }
+  Serial.println("initialization done.");
   
 }
 
@@ -259,6 +272,41 @@ void thermo() {
   delay(500);
 }
 
+void written() {
+  DateTime now = rtc.now();
+  myFile = SD.open("weather.csv", FILE_WRITE);
+  if(myFile) {
+    Serial.print("Writing to file.....");
+    myFile.println("Weather Pocket Station");
+    myFile.print(now.month(), DEC);
+    myFile.print(":");
+    myFile.print(now.day(), DEC); 
+    myFile.print(":");
+    myFile.print(now.year(), DEC);
+    myFile.print(" ");
+    myFile.print(now.hour(), DEC);
+    myFile.print(":");
+    myFile.print(now.minute(), DEC);
+    myFile.print(":");
+    myFile.println(now.second(), DEC);
+    myFile.print("Temperature (F): ");
+    myFile.println(tempF);
+    myFile.print("Temperature (C): ");
+    myFile.println(tempC);
+    myFile.print("Heat Index (F): ");
+    myFile.println(hif);
+    myFile.print("Heat Index (C): ");
+    myFile.println(hic);
+    myFile.print("Windspeed and Direction: ");
+    myFile.print(WindSpeed);
+    myFile.print(" mph ");
+    myFile.println(dir);
+    myFile.print("UV Index: ");
+    myFile.println(sensorValue);
+   
+  }
+}
+
 void loop() {
   UVvalues();
   mainMenuDraw();
@@ -325,6 +373,8 @@ void operateMainMenu() {
   int activeButton = 0;
   while (activeButton == 0) {
     int button;
+    written();
+    delay(2000);
     readKey = analogRead(0);
     if (readKey < 790) {
       delay(100);
