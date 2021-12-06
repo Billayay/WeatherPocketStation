@@ -78,7 +78,7 @@ float WindSpeed; // speed miles per hour
 #include "RTClib.h"
 #include <math.h>
 
-#define WindSensorPin (28) // The pin location of the anemometer sensor
+#define WindSensorPin (2) // The pin location of the anemometer sensor
 #define Offset 0; 
 #define DHTPIN 33
 #define DHTTYPE DHT22
@@ -519,7 +519,7 @@ void menuItem3() { // Function executes when you select the 3rd item from main m
   lcd.print(WindSpeed);
   lcd.setCursor(0,1);
   lcd.print("Direction: ");
-  lcd.print(CalDirection);
+  lcd.print(dir);
     readKey = analogRead(0);
     if (readKey < 790) {
       delay(100);
