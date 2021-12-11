@@ -46,6 +46,23 @@ To store our data.
 ### Thermistor
 Suppose to be used as a radiation measurement tool, but with the lack of math and guidance we can only find the temperature.
 
+### Sample Time
+The delay() function determines the sampling rate of each instrument.
+
+Digital Heat Temperature or DHT 22
+- has a 2 milliseconds as max sampling rate or delay(2000);
+
+UV Sensor
+- has a max samnpling rate of 10 minutes for accurate UV reading or max value of delay(600000)
+
+RTC
+- has a sampling rate of 1 second to increase time by one seconds and has a config function call to config time and date. This RTC module is non GSM.
+
+WindSpeed and Direction
+- Windspeed and direction has specific delay function times. Windspeed you can get an accurate reading of 1 seconds delay(1000);
+- Direction will need to be updated every 3 seconds or delay(3000).
+
+
 ## Credits 
 - RTC, SD card, DHT Adafruit/Arduino CC Create example codes.
 - LCD display with keybutton - https://www.instructables.com/Arduino-Uno-Menu-Template/
